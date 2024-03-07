@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.product;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -21,7 +22,15 @@ public class ProductService {
         return restClient.get()
                 .uri("/products")
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<Product>>() {
+                .body(new ParameterizedTypeReference<>() {
                 });
+    }
+    Product create(Product product) {
+        return restClient.post()
+                .uri("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(product)
+                .retrieve()
+                .body(Product.class);
     }
 }
