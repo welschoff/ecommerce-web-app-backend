@@ -1,13 +1,17 @@
 package com.example.ecommerceapp.product;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/products")
 public class ProductController {
+
+    @Autowired
+    private ProductRepository productRepository;
 
     private final ProductService productService;
 
@@ -15,15 +19,17 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("")
+    @GetMapping("/api/products")
     List<Product> findAll() {
         return productService.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    Product create(@RequestBody Product product) {return productService.create(product);
-
+    @PostMapping("/db/cart")
+    public Product create(@RequestBody Map<String, String> body){
+        String title = body.get("title");
+        String price = body.get("price");
+        String image = body.get("image");
+        return productRepository.save(new Product(title, price, image));
     }
+
 }

@@ -33,4 +33,11 @@ public class ProductService {
                 .retrieve()
                 .body(Product.class);
     }
+
+    void delete() {
+        restClient.delete()
+                .uri("/products")
+                .retrieve()
+                .toBodilessEntity();
+    }
 }
