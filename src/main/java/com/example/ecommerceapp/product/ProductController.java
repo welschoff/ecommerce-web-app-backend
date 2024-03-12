@@ -24,6 +24,11 @@ public class ProductController {
         return productService.findAll();
     }
 
+    @GetMapping("/db/cart")
+    public List<Product> index() {
+        return productRepository.findAll();
+    }
+
     @PostMapping("/db/cart")
     public Product create(@RequestBody Map<String, String> body){
         String title = body.get("title");
